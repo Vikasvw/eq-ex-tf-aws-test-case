@@ -19,6 +19,6 @@ vpc_subnet_private_az = "us-east-1a"
 # EC2 Instance variables
 test_ec2_count = 1
 test_ec2_name_prefix = "test-ec2"
-test_ec2_ami_id = "ami-12345"
+test_ec2_ami_id = "ami-12345"   # Please update the AMI ID. This is tested on Amazon Linux 2.
 test_ec2_instance_type = "t2.micro"
-key_pair_name = "test-key"
+key_pair_name = "test-key"      # Make sure the key pair is already created.
