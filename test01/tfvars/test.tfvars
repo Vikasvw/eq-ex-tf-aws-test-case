@@ -1,5 +1,6 @@
 workspace_iam_roles = {
-  test = "arn:aws:iam::111111111111:role/test-terraform-role"
+  test = "arn:aws:iam::149648085578:role/SmxTerraformDND"  # Update the IAM role ARN
+  default = "arn:aws:iam::149648085578:role/SmxTerraformDND"
 }
 Environment = "test"
 aws_region = "us-east-1"
@@ -19,6 +20,6 @@ vpc_subnet_private_az = "us-east-1a"
 # EC2 Instance variables
 test_ec2_count = 1
 test_ec2_name_prefix = "test-ec2"
-test_ec2_ami_id = "ami-12345"
+test_ec2_ami_id = "ami-04823729c75214919"     # Update the AMI ID. This is tested on Amazon Linux 2 AMI.
 test_ec2_instance_type = "t2.micro"
-key_pair_name = "test-key"
+key_pair_name = "VPC-Key02"        # Also make sure this Key is precreated.

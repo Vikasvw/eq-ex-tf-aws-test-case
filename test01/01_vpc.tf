@@ -1,8 +1,8 @@
 # Create VPC
 resource "aws_vpc" "test_vpc" {
-  cidr_block           = var.vpc_cidr_block
-  instance_tenancy     = var.vpc_tenancy
-  
+  cidr_block       = var.vpc_cidr_block
+  instance_tenancy = var.vpc_tenancy
+
   tags = {
     Name = "${var.Environment}_vpc"
   }
@@ -52,3 +52,45 @@ resource "aws_eip" "my_eip" {
     Name = "my_eip"
   }
 }
+
+# Create RT
+resource "aws_route_table" "test_vpc_pub_rt" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  tags = {
+    Name = "${var.Environment}_vpc_pub_rt"
+  }
+}
+
+resource "aws_route_table" "test_vpc_pvt_rt" {
+  vpc_id = aws_vpc.test_vpc.id
+
+  tags = {
+    Name = "${var.Environment}_vpc_pvt_rt"
+  }
+}
+
+# RT Associations
+resource "aws_route_table_association" "pub_subnet" {
+  subnet_id      = aws_subnet.test_vpc_subnet_public.id
+  route_table_id = aws_route_table.test_vpc_pub_rt.id
+}
+
+resource "aws_route_table_association" "pvt_subnet" {
+  subnet_id      = aws_subnet.test_vpc_subnet_private.id
+  route_table_id = aws_route_table.test_vpc_pvt_rt.id
+}
+
+# Add routes to the Route Table
+resource "aws_route" "pub_rt" {
+  route_table_id         = aws_route_table.test_vpc_pub_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.test_igw.id
+}
+
+resource "aws_route" "pvt_rt" {
+  route_table_id         = aws_route_table.test_vpc_pvt_rt.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.test_ngw.id
+}
+
